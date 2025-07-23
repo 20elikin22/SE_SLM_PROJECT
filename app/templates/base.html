@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Smart Line Manager{% endblock %}</title>
+
+  <!-- Google Fonts: Dancing Script -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <style>
+    /* Root variables for light mode */
+    :root {
+      --bg-color: #fff;
+      --text-color: #222;
+      --link-color: #2196f3;
+      --header-bg: #f5f5f5;
+      --button-bg: #2196f3;
+      --button-text: #fff;
+      --nav-link-active-bg: #bbdefb;
+    }
+
+    /* Dark mode overrides */
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --link-color: #64b5f6;
+      --header-bg: #1e1e1e;
+      --button-bg: #64b5f6;
+      --button-text: #121212;
+      --nav-link-active-bg: #1565c0;
+    }
+
+    /* Apply variables */
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: var(--header-bg);
+      padding: 1rem 2rem;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      color: var(--link-color);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--nav-link-active-bg);
+      color: var(--button-text);
+    }
+
+    /* Toggle button styles */
+    #theme-toggle {
+      background: var(--button-bg);
+      border: none;
+      color: var(--button-text);
+      padding: 0.4rem 0.8rem;
+      font-size: 1.25rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #theme-toggle:hover {
+      background: var(--nav-link-active-bg);
+    }
+
+    /* Header container styles (logo + title) */
+    .header-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
+    }
+
+    .site-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      margin: 0;
+      color: var(--link-color);
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .alert {
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      color: white;
+      background-color: #2196f3;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Smart Line Manager Logo" class="site-logo" />
+      <h1 class="site-title">Smart Line Manager</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('main.home') }}" class="{% if request.endpoint == 'main.home' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('main.about') }}" class="{% if request.endpoint == 'main.about' %}active{% endif %}">About</a></li>
+        <li><a href="{{ url_for('main.features') }}" class="{% if request.endpoint == 'main.features' %}active{% endif %}">Features</a></li>
+        <li><a href="{{ url_for('main.how_to_use') }}" class="{% if request.endpoint == 'main.how_to_use' %}active{% endif %}">How To Use</a></li>
+        <li><a href="{{ url_for('register.register') }}" class="{% if request.endpoint == 'register.register' %}active{% endif %}">Register</a></li>
+        <li><a href="{{ url_for('admin.admin_login') }}" class="{% if request.endpoint == 'admin.admin_login' %}active{% endif %}">Admin Login</a></li>
+      </ul>
+    </nav>
+
+    <!-- Dark/Light Mode Toggle Button -->
+    <button id="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+      🌙
+    </button>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    &copy; 2025 Smart Line Manager
+  </footer>
+
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Load saved theme from localStorage or default to dark mode
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+      toggleBtn.textContent = '🌙';
+    } else {
+      body.classList.remove('dark-mode');
+      toggleBtn.textContent = '☀️';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+
+      if (body.classList.contains('dark-mode')) {
+        toggleBtn.textContent = '🌙';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        toggleBtn.textContent = '☀️';
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>

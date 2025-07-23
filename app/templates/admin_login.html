@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div class="center-content">
+  <h2>Admin Login</h2>
+  <form method="POST">
+    <label for="username">Username:</label><br>
+    <input type="text" name="username" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<style>
+  .center-content {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 30px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+    margin-bottom: 0.8rem;
+  }
+
+  button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    padding: 0.6rem 1.8rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.5);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: var(--nav-link-active-bg);
+    transform: scale(1.05);
+  }
+</style>
+{% endblock %}

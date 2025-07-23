@@ -1,0 +1,184 @@
+/* Root variables for light mode */
+:root {
+  --bg-color: #fff;
+  --text-color: #222;
+  --link-color: #2196f3;
+  --header-bg: #f5f5f5;
+  --button-bg: #2196f3;
+  --button-text: #fff;
+  --nav-link-active-bg: #bbdefb;
+  --alert-bg: #2196f3;
+  --alert-text: #fff;
+}
+
+/* Dark mode overrides */
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --link-color: #64b5f6;
+  --header-bg: #1e1e1e;
+  --button-bg: #64b5f6;
+  --button-text: #121212;
+  --nav-link-active-bg: #1565c0;
+  --alert-bg: #64b5f6;
+  --alert-text: #121212;
+}
+
+/* Apply variables */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: var(--header-bg);
+  padding: 1rem 2rem;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+nav ul li a {
+  color: var(--link-color);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background-color: var(--nav-link-active-bg);
+  color: var(--button-text);
+}
+
+/* Toggle button styles */
+#theme-toggle {
+  background: var(--button-bg);
+  border: none;
+  color: var(--button-text);
+  padding: 0.4rem 0.8rem;
+  font-size: 1.25rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#theme-toggle:hover {
+  background: var(--nav-link-active-bg);
+}
+
+/* Header container styles (logo + title) */
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.site-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
+}
+
+.site-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3rem;
+  margin: 0;
+  color: var(--link-color);
+}
+
+/* Main content styling */
+main {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Alert flash messages */
+.alert {
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  color: var(--alert-text);
+  background-color: var(--alert-bg);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #666;
+  font-size: 0.9rem;
+}
+/* Modern select dropdown */
+select {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.5);
+  appearance: none;
+  outline: none;
+  margin-right: 0.8rem;
+  transition: background-color 0.3s ease;
+}
+
+select:focus {
+  background-color: var(--nav-link-active-bg);
+  color: #fff;
+}
+
+/* Modern form input styling */
+input[type="text"],
+input[type="password"] {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+  margin-bottom: 0.8rem;
+}
+
+/* Modern submit button */
+input[type="submit"],
+button[type="submit"],
+button[type="button"] {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  padding: 0.6rem 1.8rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.5);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  background-color: var(--nav-link-active-bg);
+  transform: scale(1.05);
+}

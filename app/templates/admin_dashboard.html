@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<!-- Filter Buttons -->
+<div class="filter-buttons">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="waiting">Waiting</button>
+  <button class="filter-btn" data-filter="called">Called</button>
+  <button class="filter-btn" data-filter="skipped">Skipped</button>
+  <button class="filter-btn" data-filter="served">Served</button>
+</div>
+
+<!-- Tickets Table -->
+<table>
+  <thead>
+    <tr>
+      <th>Queue Number</th>
+      <th>Service Type</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="tickets-table-body">
+    {% for ticket in tickets %}
+    <tr data-status="{% if ticket.status == 'called' %}called served{% else %}{{ ticket.status }}{% endif %}" data-id="{{ ticket.id }}">
+      <td>{{ ticket.queue_number }}</td>
+      <td>{{ ticket.service_type }}</td>
+      <td class="status-cell">{{ ticket.status }}</td>
+      <td class="action-cell">
+        {% if ticket.status == 'waiting' %}
+          <button class="call-btn" data-id="{{ ticket.id }}">Call</button>
+          <button class="skip-btn" data-id="{{ ticket.id }}">Skip</button>
+        {% elif ticket.status == 'called' %}
+          <span class="status-chip called">Called</span>
+        {% elif ticket.status == 'skipped' %}
+          <span class="status-chip skipped">Skipped</span>
+        {% elif ticket.status == 'served' %}
+          <span class="status-chip served">Served</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Reset Button -->
+<button id="reset-btn" class="filter-btn danger">Reset Queue</button>
+
+<!-- Sounds -->
+<audio id="call-sound" src="{{ url_for('static', filename='sounds/call.mp3') }}"></audio>
+<audio id="skip-sound" src="{{ url_for('static', filename='sounds/skip.mp3') }}"></audio>
+<audio id="reset-sound" src="{{ url_for('static', filename='sounds/reset.mp3') }}"></audio>
+
+<!-- Styles and Scripts remain the same (unchanged) -->
+<style>
+  .filter-buttons {
+    margin-bottom: 1rem;
+  }
+
+  .filter-btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 0.5rem 1.2rem;
+    margin: 0 0.3rem 1rem 0;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .filter-btn:hover {
+    background-color: var(--nav-link-active-bg);
+    transform: scale(1.05);
+  }
+
+  .filter-btn.active {
+    background-color: var(--nav-link-active-bg);
+    box-shadow: 0 0 12px 2px var(--nav-link-active-bg);
+  }
+
+  .filter-btn.danger {
+    background-color: #f44336;
+    color: #fff;
+  }
+
+  .call-btn,
+  .skip-btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    padding: 0.5rem 1.4rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .call-btn:hover,
+  .skip-btn:hover {
+    background-color: var(--nav-link-active-bg);
+    transform: scale(1.05);
+  }
+
+  .filter-btn.danger:hover {
+    background-color: #d32f2f;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+  }
+
+  th, td {
+    border: 1px solid var(--nav-link-active-bg);
+    padding: 0.75rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--header-bg);
+  }
+
+  .status-chip {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: capitalize;
+  }
+
+  .called {
+    background-color: #1976d2;
+    color: white;
+  }
+
+  .skipped {
+    background-color: #b71c1c;
+    color: white;
+  }
+
+  .served {
+    background-color: #388e3c;
+    color: white;
+  }
+</style>
+
+<script>
+  function playSound(id) {
+    const sound = document.getElementById(id);
+    sound.pause();
+    sound.currentTime = 0;
+    sound.play();
+  }
+
+  document.querySelectorAll('.call-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      fetch(`/admin/call/${id}`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            row.dataset.status = "called served";
+            row.querySelector('.status-cell').textContent = 'called';
+            row.querySelector('.action-cell').innerHTML = '<span class="status-chip called">Called</span>';
+            playSound('call-sound');
+          } else {
+            alert(data.message || 'Failed to call ticket.');
+          }
+        });
+    });
+  });
+
+  document.querySelectorAll('.skip-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      fetch(`/admin/skip/${id}`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            row.dataset.status = "skipped";
+            row.querySelector('.status-cell').textContent = 'skipped';
+            row.querySelector('.action-cell').innerHTML = '<span class="status-chip skipped">Skipped</span>';
+            playSound('skip-sound');
+          } else {
+            alert(data.message || 'Failed to skip ticket.');
+          }
+        });
+    });
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    fetch('/admin/reset', { method: 'POST' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          playSound('reset-sound');
+          setTimeout(() => window.location.reload(), 600);
+        } else {
+          alert('Failed to reset queue.');
+        }
+      });
+  });
+
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const tableBody = document.getElementById('tickets-table-body');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const filter = button.dataset.filter;
+
+      Array.from(tableBody.rows).forEach(row => {
+        const statuses = row.dataset.status.split(' ');
+        row.style.display = (filter === 'all' || statuses.includes(filter)) ? '' : 'none';
+      });
+    });
+  });
+</script>
+{% endblock %}

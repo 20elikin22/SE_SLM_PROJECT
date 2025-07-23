@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome | Smart Line Manager{% endblock %}
+
+{% block content %}
+<div class="home-container">
+  <h1>Welcome to Smart Line Manager</h1>
+  <p>Your only hope in the soul-sucking abyss of endless queues — because if you’re doomed to wait, might as well do it with style (and a generous dose of existential dread).
+WELCOME TO SUFFERING, UPGRADED. Press that button whenever you’re ready to embrace your fate. NO REFUNDS ON WHATEVER YOU'RE QUEUEING FOR. 💀🔥⌛️</p>
+
+  <a href="{{ url_for('register.register') }}" class="btn-primary">Register for a Queue</a>
+
+  <!-- Optional: Add a nice hero image -->
+  <div class="hero-image-container">
+    <img src="{{ url_for('static', filename='images/homepage.jpg') }}" alt="Smart Line Manager" class="hero-image" />
+  </div>
+</div>
+
+<style>
+  .home-container {
+    text-align: center;
+    max-width: 700px;
+    margin: 3rem auto;
+  }
+
+  .home-container h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: var(--link-color);
+    margin-bottom: 1rem;
+  }
+
+  .home-container p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+  }
+
+  .btn-primary {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    padding: 1rem 3rem;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-decoration: none;
+    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.6);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--nav-link-active-bg);
+    transform: scale(1.1);
+  }
+
+  .hero-image-container {
+    margin-top: 3rem;
+  }
+
+  .hero-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4);
+  }
+</style>
+{% endblock %}

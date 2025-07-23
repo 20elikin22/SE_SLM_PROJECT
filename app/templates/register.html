@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="center-content">
+  <h2 class="text-3xl font-bold mb-6">Register for a Queue</h2>
+  <form method="POST" class="flex justify-center items-center flex-col gap-4">
+    
+    <label for="service_type" class="text-lg font-semibold">Select Service:</label>
+    
+    <select name="service_type" required class="glow-select w-64">
+      <option value="">Select your service</option>
+      <option value="Bank">Bank</option>
+      <option value="Cafe">Cafe</option>
+      <option value="Clinic">Clinic</option>
+      <option value="Tech Support">Tech Support</option>
+    </select>
+
+    <button type="submit" class="glow-button">
+      Get Ticket
+    </button>
+  </form>
+</div>
+
+<style>
+  .center-content {
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .glow-select {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(to right, #2196f3, #64b5f6);
+    color: white;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.6);
+    appearance: none;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .glow-select:focus {
+    background: #1976d2;
+    box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.5);
+  }
+
+  .glow-button {
+    background: linear-gradient(to right, #2196f3, #64b5f6);
+    color: white;
+    padding: 0.75rem 2.5rem;
+    border: none;
+    border-radius: 9999px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.6);
+    transition: background 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .glow-button:hover {
+    background: linear-gradient(to right, #1976d2, #42a5f5);
+    transform: scale(1.05);
+  }
+</style>
+{% endblock %}
