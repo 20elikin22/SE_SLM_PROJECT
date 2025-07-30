@@ -4,28 +4,22 @@
 {% block content %}
 <h2>Admin Dashboard</h2>
 
-<<<<<<< HEAD
-<!-- Filter Buttons and Export -->
-=======
-<!-- ✅ Filter Buttons and Export -->
->>>>>>> 51f376742c835a233ee914ec905b78dabc47c0e3
+<!-- Filter Buttons -->
 <div class="filter-buttons">
   <button class="filter-btn active" data-filter="all">All</button>
   <button class="filter-btn" data-filter="waiting">Waiting</button>
   <button class="filter-btn" data-filter="called">Called</button>
   <button class="filter-btn" data-filter="skipped">Skipped</button>
   <button class="filter-btn" data-filter="served">Served</button>
-<<<<<<< HEAD
-  
-  <!-- Export Buttons -->
-  <a href="{{ url_for('export.export_csv') }}" class="filter-btn export-btn">Export CSV</a>
-  <a href="{{ url_for('export.export_pdf') }}" class="filter-btn export-btn">Export PDF</a>
-=======
-  <a href="{{ url_for('export.export_csv') }}" class="filter-btn export-btn">Export CSV</a>
->>>>>>> 51f376742c835a233ee914ec905b78dabc47c0e3
 </div>
 
-<!-- ✅ Tickets Table -->
+<!-- Export Buttons -->
+<div class="filter-buttons">
+  <a href="{{ url_for('export.export_pdf') }}" class="filter-btn export-btn">📄 Export PDF</a>
+  <a href="{{ url_for('export.export_csv') }}" class="filter-btn export-btn">📊 Export CSV</a>
+</div>
+
+<!-- Tickets Table -->
 <table>
   <thead>
     <tr>
@@ -58,22 +52,16 @@
   </tbody>
 </table>
 
-<!-- ✅ Reset Button -->
+<!-- Reset Button -->
 <button id="reset-btn" class="filter-btn danger">Reset Queue</button>
 
-<!-- ✅ Audio Feedback -->
+<!-- Sounds -->
 <audio id="call-sound" src="{{ url_for('static', filename='sounds/call.mp3') }}"></audio>
 <audio id="skip-sound" src="{{ url_for('static', filename='sounds/skip.mp3') }}"></audio>
 <audio id="reset-sound" src="{{ url_for('static', filename='sounds/reset.mp3') }}"></audio>
 
-<<<<<<< HEAD
-=======
-<!-- ✅ Styles -->
->>>>>>> 51f376742c835a233ee914ec905b78dabc47c0e3
 <style>
-  .filter-buttons {
-    margin-bottom: 1rem;
-  }
+  .filter-buttons { margin-bottom: 1rem; }
 
   .filter-btn {
     background-color: var(--button-bg);
@@ -85,9 +73,9 @@
     cursor: pointer;
     font-weight: 600;
     box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+    transition: background-color 0.3s ease, transform 0.2s ease;
     text-decoration: none;
     display: inline-block;
-    transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
   .filter-btn:hover {
@@ -107,27 +95,6 @@
 
   .filter-btn.danger:hover {
     background-color: #d32f2f;
-  }
-
-  .call-btn,
-  .skip-btn {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    padding: 0.5rem 1.4rem;
-    border: none;
-    border-radius: 30px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
-    cursor: pointer;
-    margin-right: 0.5rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-
-  .call-btn:hover,
-  .skip-btn:hover {
-    background-color: var(--nav-link-active-bg);
-    transform: scale(1.05);
   }
 
   table {
@@ -155,23 +122,30 @@
     text-transform: capitalize;
   }
 
-  .called {
-    background-color: #1976d2;
-    color: white;
+  .called { background-color: #1976d2; color: white; }
+  .skipped { background-color: #b71c1c; color: white; }
+  .served { background-color: #388e3c; color: white; }
+
+  .call-btn, .skip-btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    padding: 0.5rem 1.4rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
-  .skipped {
-    background-color: #b71c1c;
-    color: white;
-  }
-
-  .served {
-    background-color: #388e3c;
-    color: white;
+  .call-btn:hover, .skip-btn:hover {
+    background-color: var(--nav-link-active-bg);
+    transform: scale(1.05);
   }
 </style>
 
-<!-- ✅ Scripts -->
 <script>
   function playSound(id) {
     const sound = document.getElementById(id);

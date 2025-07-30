@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from flask import Blueprint, Response, render_template, make_response
 from app.models import QueueTicket
 from io import BytesIO
@@ -21,7 +20,8 @@ def export_csv():
         data.truncate(0)
 
         for ticket in tickets:
-            writer.writerow([ticket.queue_number, ticket.service_type, ticket.status, ticket.created_at])
+            status = "served" if ticket.status == "called" else ticket.status
+            writer.writerow([ticket.queue_number, ticket.service_type, status, ticket.created_at])
             yield data.getvalue()
             data.seek(0)
             data.truncate(0)
@@ -53,45 +53,3 @@ def export_pdf():
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment;filename=tickets.pdf'
     return response
-=======
-from flask import Blueprint, Response
-from app.models import QueueTicket
-import csv
-from io import StringIO
-from datetime import datetime
-
-bp = Blueprint('export', __name__)
-
-
-@bp.route('/export/csv')
-def export_csv():
-    """Export tickets as CSV (called tickets will be marked as served)."""
-    output = StringIO()
-    writer = csv.writer(output)
-
-    # Write CSV headers
-    writer.writerow(["Queue Number", "Service Type", "Status", "Created At", "Called At"])
-
-    tickets = QueueTicket.query.order_by(QueueTicket.queue_number).all()
-
-    for ticket in tickets:
-        # Change 'called' to 'served' just for the export
-        status = ticket.status
-        if status == "called":
-            status = "served"
-
-        writer.writerow([
-            ticket.queue_number,
-            ticket.service_type,
-            status,
-            ticket.created_at.strftime('%Y-%m-%d %H:%M:%S') if ticket.created_at else '',
-            ticket.called_at.strftime('%Y-%m-%d %H:%M:%S') if ticket.called_at else ''
-        ])
-
-    output.seek(0)
-
-    # Return CSV as a downloadable response
-    response = Response(output, mimetype='text/csv')
-    response.headers['Content-Disposition'] = f'attachment; filename=tickets_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
-    return response
->>>>>>> 51f376742c835a233ee914ec905b78dabc47c0e3
