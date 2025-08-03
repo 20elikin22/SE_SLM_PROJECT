@@ -7,54 +7,29 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      margin-top: 60px;
+      margin-top: 80px;
+    }
+    select {
+      font-size: 20px;
+      padding: 10px 20px;
     }
     h2 {
       margin-bottom: 20px;
     }
-    select {
-      font-size: 18px;
-      padding: 10px 20px;
-      margin-bottom: 30px;
-    }
-    .lang-btn {
-      font-size: 16px;
-      padding: 10px 25px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .en { background: #007BFF; color: white; }
-    .am { background: #28a745; color: white; }
-    .fr { background: #e83e8c; color: white; }
-    .es { background: #fd7e14; color: white; }
     footer {
       margin-top: 50px;
       color: #666;
-      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <h2>🌍 Please select your language</h2>
-
-  <!-- Dropdown Selection -->
   <select onchange="alert('Language switched to ' + this.options[this.selectedIndex].text)">
     <option value="en">🇺🇸 English</option>
     <option value="am">🇪🇹 አማርኛ (Amharic)</option>
     <option value="fr">🇫🇷 Français</option>
     <option value="es">🇪🇸 Español</option>
   </select>
-
-  <!-- Button Selection -->
-  <div>
-    <button class="lang-btn en" onclick="alert('Language set to English')">🇺🇸 English</button>
-    <button class="lang-btn am" onclick="alert('Language set to አማርኛ')">🇪🇹 አማርኛ</button>
-    <button class="lang-btn fr" onclick="alert('Language set to Français')">🇫🇷 Français</button>
-    <button class="lang-btn es" onclick="alert('Language set to Español')">🇪🇸 Español</button>
-  </div>
-
   <footer>Language preference will be applied system-wide.</footer>
 </body>
 </html>
