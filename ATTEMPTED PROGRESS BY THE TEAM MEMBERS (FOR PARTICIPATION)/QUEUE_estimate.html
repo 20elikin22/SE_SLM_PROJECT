@@ -3,39 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <title>Queue Status</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&family=Dancing+Script&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-light: #f5f5f5;
+      --bg-dark: #121212;
+      --card-light: #ffffff;
+      --card-dark: #1e1e1e;
+      --text-light: #002244;
+      --text-dark: #ffffff;
+      --primary: #00d1ff;
+      --accent: #63b3ed;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background-color: #121212;
       font-family: 'Segoe UI', sans-serif;
-      color: #ffffff;
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .light-mode {
+      background-color: var(--bg-light);
+      color: var(--text-light);
     }
 
     .card {
-      background: #1e1e1e;
+      background: var(--card-dark);
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
       padding: 30px 40px;
       text-align: center;
       max-width: 450px;
+      width: 90%;
+      transition: background 0.4s;
+    }
+
+    .light-mode .card {
+      background: var(--card-light);
     }
 
     h2 {
-      color: #63b3ed;
+      color: var(--accent);
       margin-bottom: 15px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 34px;
     }
 
     .info-box {
       background: #2a2a2a;
       border-radius: 10px;
       padding: 15px;
-      margin-top: 10px;
+      margin-top: 15px;
       font-size: 18px;
+      transition: background 0.4s;
+    }
+
+    .light-mode .info-box {
+      background: #f0f0f0;
     }
 
     .label {
@@ -43,11 +80,15 @@
       font-size: 14px;
     }
 
+    .light-mode .label {
+      color: #444;
+    }
+
     .value {
       font-size: 26px;
       font-weight: bold;
       margin-top: 5px;
-      color: #00d1ff;
+      color: var(--primary);
     }
 
     .fade-in {
@@ -58,9 +99,43 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 12px;
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .toggle-btn:hover {
+      background-color: var(--accent);
+      color: #000;
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 28px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .value {
+        font-size: 22px;
+      }
+    }
   </style>
 </head>
-<body>
+<body class="dark-mode">
+
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
 
   <div class="card fade-in">
     <h2>You're in the Queue!</h2>
@@ -79,8 +154,25 @@
       <div class="label">Estimated Wait Time</div>
       <div class="value">12 minutes</div>
     </div>
-
   </div>
 
+  <script>
+    function toggleMode() {
+      const body = document.body;
+      if (body.classList.contains("dark-mode")) {
+        body.classList.remove("dark-mode");
+        body.classList.add("light-mode");
+      } else {
+        body.classList.remove("light-mode");
+        body.classList.add("dark-mode");
+      }
+    }
+
+    // Optional: Set mode based on system preference
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+    }
+  </script>
 </body>
 </html>
