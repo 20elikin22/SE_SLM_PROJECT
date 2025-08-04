@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Smart Line QR Registration</title>
+  <style>
+    body {
+      background-color: #f1f1f1;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+    h1, h2 {
+      color: #003366;
+      margin: 0 0 15px 0;
+      font-weight: 700;
+      font-size: 32px;
+    }
+    .description, .sub-description {
+      font-size: 16-18px;
+      color: #333;
+      margin: 10px 0 20px 0;
+      line-height: 1.4;
+    }
+    img {
+      margin-top: 20px;
+      border: 3px dashed #003366;
+      padding: 12px;
+      background: white;
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+    }
+    footer {
+      margin-top: 35px;
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Scan QR to Register</h1>
+    <p class="description">Use your phone camera to scan the code below and get your ticket in the Smart Line queue system.</p>
+    <p class="sub-description">Select your department (Clinic, Bank, Café, etc.) after scanning. Get your ticket in seconds. No physical contact needed.</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://yourdomain.com/register" alt="QR Code" />
+    <footer>Smart Line Manager &copy; 2025 | Fast. Easy. Contactless.</footer>
+  </div>
+</body>
+</html>
