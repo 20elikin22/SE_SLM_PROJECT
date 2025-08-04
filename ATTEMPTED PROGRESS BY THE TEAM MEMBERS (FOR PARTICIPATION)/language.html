@@ -3,33 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <title>Select Language</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --light-bg: #f5f5f5;
+      --dark-bg: #121212;
+      --text-light: #003366;
+      --text-dark: #ffffff;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      margin-top: 80px;
+      margin: 0;
+      padding: 80px 20px;
+      background-color: var(--light-bg);
+      color: var(--text-light);
+      transition: background 0.4s, color 0.4s;
     }
+
+    .dark-mode {
+      background-color: var(--dark-bg);
+      color: var(--text-dark);
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
     select {
       font-size: 20px;
       padding: 10px 20px;
+      border-radius: 8px;
+      border: 2px solid #003366;
+      background-color: white;
+      color: #003366;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
     }
-    h2 {
-      margin-bottom: 20px;
+
+    .dark-mode select {
+      background-color: #1f1f1f;
+      color: #ffffff;
+      border-color: #4da6ff;
     }
+
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 8px #4da6ff;
+    }
+
+    option {
+      font-size: 18px;
+      padding: 10px;
+    }
+
     footer {
       margin-top: 50px;
+      font-size: 14px;
       color: #666;
+    }
+
+    .dark-mode footer {
+      color: #aaa;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 12px;
+      border: 2px solid #003366;
+      border-radius: 8px;
+      background: transparent;
+      color: #003366;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .dark-mode .toggle-btn {
+      border-color: #4da6ff;
+      color: #4da6ff;
+    }
+
+    .toggle-btn:hover {
+      background-color: #003366;
+      color: white;
+    }
+
+    .dark-mode .toggle-btn:hover {
+      background-color: #4da6ff;
+      color: black;
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 22px;
+      }
+
+      select {
+        font-size: 18px;
+        padding: 8px 16px;
+      }
     }
   </style>
 </head>
 <body>
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
+
   <h2>🌍 Please select your language</h2>
-  <select onchange="alert('Language switched to ' + this.options[this.selectedIndex].text)">
+  <select onchange="setLanguage(this)">
     <option value="en">🇺🇸 English</option>
     <option value="am">🇪🇹 አማርኛ (Amharic)</option>
     <option value="fr">🇫🇷 Français</option>
     <option value="es">🇪🇸 Español</option>
   </select>
+
   <footer>Language preference will be applied system-wide.</footer>
+
+  <script>
+    // System preference detection
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) document.body.classList.add('dark-mode');
+
+    function toggleMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function setLanguage(select) {
+      const lang = select.value;
+      const langName = select.options[select.selectedIndex].text;
+      alert('Language switched to ' + langName);
+      // Optional: Save to localStorage or call backend
+      // localStorage.setItem('lang', lang);
+      // window.location.href = `/set-language?lang=${lang}`;
+    }
+  </script>
 </body>
 </html>
