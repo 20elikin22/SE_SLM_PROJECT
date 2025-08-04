@@ -3,39 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <title>Smart Line QR Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&family=Dancing+Script&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-light: #f1f1f1;
+      --bg-dark: #121212;
+      --text-light: #003366;
+      --text-dark: #f1f1f1;
+      --footer-color: #666;
+      --card-bg-light: white;
+      --card-bg-dark: #1e1e1e;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      padding: 60px;
-      background-color: #f1f1f1;
+      padding: 60px 20px;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
     }
+
+    .dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
     h1 {
       font-size: 36px;
-      color: #003366;
+      font-family: 'Dancing Script', cursive;
+      margin-bottom: 20px;
     }
+
     .description {
       font-size: 18px;
-      color: #333;
       margin: 20px 0;
+      line-height: 1.5;
     }
+
     img {
       margin-top: 20px;
       border: 4px dashed #003366;
       padding: 10px;
       background: white;
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      animation: glow 2s infinite ease-in-out;
     }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 5px #4da6ff;
+      }
+      50% {
+        box-shadow: 0 0 20px #4da6ff;
+      }
+    }
+
     footer {
       margin-top: 40px;
-      color: #666;
       font-size: 14px;
+      color: var(--footer-color);
+    }
+
+    .dark-mode footer {
+      color: #aaa;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 12px;
+      border: 2px solid #003366;
+      border-radius: 8px;
+      background: transparent;
+      color: #003366;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background-color: #003366;
+      color: white;
+    }
+
+    .dark-mode .toggle-btn {
+      border-color: #4da6ff;
+      color: #4da6ff;
+    }
+
+    .dark-mode .toggle-btn:hover {
+      background-color: #4da6ff;
+      color: black;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 28px;
+      }
+      img {
+        width: 160px;
+        height: 160px;
+      }
     }
   </style>
 </head>
 <body>
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
   <h1>Scan QR to Register</h1>
-  <p class="description">Use your phone camera to scan the code below and get your ticket in the Smart Line queue system.</p>
-  <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://yourdomain.com/register" width="200" alt="QR Code">
+  <p class="description">
+    Use your phone camera to scan the code below and get your ticket in the Smart Line queue system.
+  </p>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://yourdomain.com/register" alt="QR Code">
   <footer>Smart Line Manager &copy; 2025 | Fast. Easy. Contactless.</footer>
+
+  <script>
+    // Auto-detect dark mode preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.body.classList.add('dark-mode');
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
 </body>
 </html>

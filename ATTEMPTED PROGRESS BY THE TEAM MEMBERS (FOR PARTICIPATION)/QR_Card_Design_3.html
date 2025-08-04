@@ -3,45 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <title>Register via QR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&family=Dancing+Script&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --light-bg: #eaeaea;
+      --dark-bg: #121212;
+      --light-text: #002244;
+      --dark-text: #f1f1f1;
+      --card-light: #ffffff;
+      --card-dark: #1f1f1f;
+    }
+
     body {
-      background: #eaeaea;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--light-bg);
+      color: var(--light-text);
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      margin: 0;
+      transition: background 0.3s, color 0.3s;
     }
+
+    .dark-mode {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
     .card {
-      background: white;
+      background: var(--card-light);
       padding: 40px;
       border-radius: 15px;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
       text-align: center;
       max-width: 400px;
+      width: 90%;
+      transition: background 0.3s;
     }
+
+    .dark-mode .card {
+      background: var(--card-dark);
+    }
+
     .card h2 {
       margin-bottom: 15px;
       color: #002244;
+      font-family: 'Dancing Script', cursive;
+      font-size: 32px;
     }
+
+    .dark-mode .card h2 {
+      color: #4da6ff;
+    }
+
     .card p {
       font-size: 16px;
-      color: #333;
+      color: inherit;
+      line-height: 1.5;
     }
+
     .card img {
       margin-top: 20px;
       border: 2px solid #002244;
       padding: 5px;
       background: #fff;
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      animation: glow 2s infinite ease-in-out;
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 5px #4da6ff;
+      }
+      50% {
+        box-shadow: 0 0 20px #4da6ff;
+      }
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .dark-mode footer {
+      color: #aaa;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 12px;
+      border: 2px solid #002244;
+      border-radius: 8px;
+      background: transparent;
+      color: #002244;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dark-mode .toggle-btn {
+      border-color: #4da6ff;
+      color: #4da6ff;
+    }
+
+    .toggle-btn:hover {
+      background-color: #002244;
+      color: white;
+    }
+
+    .dark-mode .toggle-btn:hover {
+      background-color: #4da6ff;
+      color: black;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
+      }
+      .card h2 {
+        font-size: 26px;
+      }
+      .card img {
+        width: 150px;
+        height: 150px;
+      }
     }
   </style>
 </head>
 <body>
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
   <div class="card">
     <h2>Smart Line QR Registration</h2>
     <p>Select your department (Clinic, Bank, Café, etc.) after scanning.</p>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://yourdomain.com/register" width="180">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://yourdomain.com/register" alt="QR Code">
     <p>Get your ticket in seconds. No physical contact needed.</p>
+    <footer>Smart Line Manager &copy; 2025 | Queue Smart, Live Easy.</footer>
   </div>
+
+  <script>
+    // Auto dark mode detection
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.body.classList.add('dark-mode');
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
 </body>
 </html>
